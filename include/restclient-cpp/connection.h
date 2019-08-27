@@ -166,6 +166,10 @@ class Connection {
     // set CURLOPT_PROXY
     void SetProxy(const std::string& uriProxy);
 
+    // set CURLOPT_SSL_VERIFYHOST to 0
+    // set CURLOPT_SSL_VERIFYPEER to 0
+    void DisableSecureConnection();
+
     // set CURLOPT_UNIX_SOCKET_PATH
     void SetUnixSocketPath(const std::string& unixSocketPath);
 
@@ -217,6 +221,7 @@ class Connection {
     std::string keyPassword;
     std::string uriProxy;
     std::string unixSocketPath;
+    bool disableSecureConnection;
     RestClient::Response performCurlRequest(const std::string& uri);
 };
 };  // namespace RestClient

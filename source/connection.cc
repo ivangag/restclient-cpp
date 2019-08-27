@@ -36,6 +36,7 @@ RestClient::Connection::Connection(const std::string& baseUrl)
   this->followRedirects = false;
   this->maxRedirects = -1l;
   this->noSignal = false;
+  this->disableSecureConnection = false;
 }
 
 RestClient::Connection::~Connection() {
@@ -247,6 +248,15 @@ RestClient::Connection::SetKeyPassword(const std::string& keyPassword) {
 }
 
 /**
+ * 
+ */
+
+void
+RestClient::Connection::DisableSecureConnection() {
+  this->disableSecureConnection = true;
+}
+
+/**
  * @brief set HTTP proxy address and port
  *
  * @param proxy address with port number
@@ -381,6 +391,14 @@ RestClient::Connection::performCurlRequest(const std::string& uri) {
     curl_easy_setopt(this->curlHandle, CURLOPT_KEYPASSWD,
                      this->keyPassword.c_str());
   }
+  
+    // disable secure access if required for this instance
+  if(this->disableSecureConnection) {
+      /* Set the default value: strict name check please */
+      curl_easy_setopt(this->curlHandle, CURLOPT_SSL_VERIFYHOST, 0L);
+      /* Set the default value: strict certificate check please */
+      curl_easy_setopt(this->curlHandle, CURLOPT_SSL_VERIFYPEER, 0L);
+  } 
 
   // set web proxy address
   if (!this->uriProxy.empty()) {
