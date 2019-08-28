@@ -1,6 +1,6 @@
 # Changelog
 ## v1.0.0 (28th August 2019)
-- added option to disable SSL certification check
+- added option to disable SSL certification check (Ivan Gaglioti)
 
 ## v0.5.1 (6th May 2019)
 - add initial cmake build
